@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="GTDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="GTDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -140,6 +140,7 @@
           <Property Name="Extension" Type="nvarchar(max)" />
           <Property Name="Tamaño" Type="nvarchar(max)" />
           <Property Name="Fecha_Creacion" Type="datetime" Nullable="false" />
+          <Property Name="Tipo" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="ListaNegra">
           <Key>
@@ -191,7 +192,7 @@
           <Property Name="SaldoActual" Type="float" />
           <Property Name="StatusOperacion" Type="bit" Nullable="false" />
           <Property Name="DateTOpSerBI" Type="datetime" Nullable="false" />
-          <Property Name="TagId" Type="bigint" Nullable="false" />
+          <Property Name="Tags_Id" Type="bigint" />
           <Property Name="Numero" Type="nvarchar" MaxLength="30" />
           <Property Name="NoReferencia" Type="nvarchar" MaxLength="30" />
           <Property Name="Tipo" Type="nvarchar" MaxLength="20" />
@@ -306,17 +307,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_OperacionesSerBIpagos_dbo_Tags_TagId">
-          <End Role="Tags" Type="Self.Tags" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_dbo_OperacionesSerBIpagos_dbo_Tags_Tags_Id">
+          <End Role="Tags" Type="Self.Tags" Multiplicity="0..1" />
           <End Role="OperacionesSerBIpagos" Type="Self.OperacionesSerBIpagos" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tags">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="OperacionesSerBIpagos">
-              <PropertyRef Name="TagId" />
+              <PropertyRef Name="Tags_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -377,7 +376,7 @@
             <End Role="CortesCajeroes" EntitySet="CortesCajeroes" />
             <End Role="OperacionesCajeroes" EntitySet="OperacionesCajeroes" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_OperacionesSerBIpagos_dbo_Tags_TagId" Association="Self.FK_dbo_OperacionesSerBIpagos_dbo_Tags_TagId">
+          <AssociationSet Name="FK_dbo_OperacionesSerBIpagos_dbo_Tags_Tags_Id" Association="Self.FK_dbo_OperacionesSerBIpagos_dbo_Tags_Tags_Id">
             <End Role="Tags" EntitySet="Tags" />
             <End Role="OperacionesSerBIpagos" EntitySet="OperacionesSerBIpagos" />
           </AssociationSet>
@@ -386,7 +385,8 @@
             <End Role="Tags" EntitySet="Tags" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GTDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -519,6 +519,16 @@
           <Property Name="SaldoAnterior" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="SaldoActualizado" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="HistoricoListas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Extension" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Tamaño" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Fecha_Creacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Tipo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="ListaNegra">
           <Key>
             <PropertyRef Name="Id" />
@@ -570,12 +580,12 @@
           <Property Name="SaldoActual" Type="Double" />
           <Property Name="StatusOperacion" Type="Boolean" Nullable="false" />
           <Property Name="DateTOpSerBI" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="TagId" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Tags" Relationship="Self.FK_dbo_OperacionesSerBIpagos_dbo_Tags_TagId" FromRole="OperacionesSerBIpagos" ToRole="Tags" />
+          <Property Name="Tags_Id" Type="Int64" />
           <Property Name="Numero" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="NoReferencia" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="Tipo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Concepto" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tags" Relationship="Self.FK_dbo_OperacionesSerBIpagos_dbo_Tags_Tags_Id" FromRole="OperacionesSerBIpagos" ToRole="Tags" />
         </EntityType>
         <EntityType Name="Parametrizables">
           <Key>
@@ -602,7 +612,7 @@
           <Property Name="CuentaId" Type="Int64" Nullable="false" />
           <Property Name="IdCajero" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="CuentasTelepeajes" Relationship="Self.FK_dbo_Tags_dbo_CuentasTelepeajes_CuentaId" FromRole="Tags" ToRole="CuentasTelepeajes" />
-          <NavigationProperty Name="OperacionesSerBIpagos" Relationship="Self.FK_dbo_OperacionesSerBIpagos_dbo_Tags_TagId" FromRole="Tags" ToRole="OperacionesSerBIpagos" />
+          <NavigationProperty Name="OperacionesSerBIpagos" Relationship="Self.FK_dbo_OperacionesSerBIpagos_dbo_Tags_Tags_Id" FromRole="Tags" ToRole="OperacionesSerBIpagos" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -674,17 +684,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_OperacionesSerBIpagos_dbo_Tags_TagId">
-          <End Role="Tags" Type="Self.Tags" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_dbo_OperacionesSerBIpagos_dbo_Tags_Tags_Id">
+          <End Role="Tags" Type="Self.Tags" Multiplicity="0..1" />
           <End Role="OperacionesSerBIpagos" Type="Self.OperacionesSerBIpagos" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tags">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="OperacionesSerBIpagos">
-              <PropertyRef Name="TagId" />
+              <PropertyRef Name="Tags_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -702,6 +710,7 @@
           <EntitySet Name="CortesCajeroes" EntityType="Self.CortesCajeroes" />
           <EntitySet Name="CuentasTelepeajes" EntityType="Self.CuentasTelepeajes" />
           <EntitySet Name="Historico" EntityType="Self.Historico" />
+          <EntitySet Name="HistoricoListas" EntityType="Self.HistoricoListas" />
           <EntitySet Name="ListaNegra" EntityType="Self.ListaNegra" />
           <EntitySet Name="MontosRecargables" EntityType="Self.MontosRecargables" />
           <EntitySet Name="OperacionesCajeroes" EntityType="Self.OperacionesCajeroes" />
@@ -728,7 +737,7 @@
             <End Role="CuentasTelepeajes" EntitySet="CuentasTelepeajes" />
             <End Role="Tags" EntitySet="Tags" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_OperacionesSerBIpagos_dbo_Tags_TagId" Association="Self.FK_dbo_OperacionesSerBIpagos_dbo_Tags_TagId">
+          <AssociationSet Name="FK_dbo_OperacionesSerBIpagos_dbo_Tags_Tags_Id" Association="Self.FK_dbo_OperacionesSerBIpagos_dbo_Tags_Tags_Id">
             <End Role="Tags" EntitySet="Tags" />
             <End Role="OperacionesSerBIpagos" EntitySet="OperacionesSerBIpagos" />
           </AssociationSet>
@@ -736,18 +745,8 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <EntitySet Name="HistoricoListas" EntityType="GTDBModel.HistoricoListas" />
           <FunctionImport Name="sp_StatusTag" />
         </EntityContainer>
-        <EntityType Name="HistoricoListas">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Extension" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Tamaño" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Fecha_Creacion" Type="DateTime" Nullable="false" Precision="3" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -879,11 +878,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="HistoricoListas">
+            <EntityTypeMapping TypeName="GTDBModel.HistoricoListas">
+              <MappingFragment StoreEntitySet="HistoricoListas">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="Tamaño" ColumnName="Tamaño" />
+                <ScalarProperty Name="Fecha_Creacion" ColumnName="Fecha_Creacion" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ListaNegra">
             <EntityTypeMapping TypeName="GTDBModel.ListaNegra">
               <MappingFragment StoreEntitySet="ListaNegra">
-                <ScalarProperty Name="NumCuenta" ColumnName="NumCuenta" />
-                <ScalarProperty Name="NumCliente" ColumnName="NumCliente" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Tipo" ColumnName="Tipo" />
                 <ScalarProperty Name="Numero" ColumnName="Numero" />
@@ -892,6 +900,8 @@
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="IdCajero" ColumnName="IdCajero" />
                 <ScalarProperty Name="Clase" ColumnName="Clase" />
+                <ScalarProperty Name="NumCliente" ColumnName="NumCliente" />
+                <ScalarProperty Name="NumCuenta" ColumnName="NumCuenta" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -923,10 +933,6 @@
           <EntitySetMapping Name="OperacionesSerBIpagos">
             <EntityTypeMapping TypeName="GTDBModel.OperacionesSerBIpagos">
               <MappingFragment StoreEntitySet="OperacionesSerBIpagos">
-                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
-                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
-                <ScalarProperty Name="NoReferencia" ColumnName="NoReferencia" />
-                <ScalarProperty Name="Numero" ColumnName="Numero" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="NumAutoriProveedor" ColumnName="NumAutoriProveedor" />
                 <ScalarProperty Name="NumAutoriBanco" ColumnName="NumAutoriBanco" />
@@ -935,7 +941,11 @@
                 <ScalarProperty Name="SaldoActual" ColumnName="SaldoActual" />
                 <ScalarProperty Name="StatusOperacion" ColumnName="StatusOperacion" />
                 <ScalarProperty Name="DateTOpSerBI" ColumnName="DateTOpSerBI" />
-                <ScalarProperty Name="TagId" ColumnName="TagId" />
+                <ScalarProperty Name="Tags_Id" ColumnName="Tags_Id" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="NoReferencia" ColumnName="NoReferencia" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -974,16 +984,6 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="HistoricoListas">
-            <EntityTypeMapping TypeName="GTDBModel.HistoricoListas">
-              <MappingFragment StoreEntitySet="HistoricoListas">
-                <ScalarProperty Name="Fecha_Creacion" ColumnName="Fecha_Creacion" />
-                <ScalarProperty Name="Tamaño" ColumnName="Tamaño" />
-                <ScalarProperty Name="Extension" ColumnName="Extension" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_StatusTag" FunctionName="GTDBModel.Store.sp_StatusTag" />
         </EntityContainerMapping>
       </Mapping>

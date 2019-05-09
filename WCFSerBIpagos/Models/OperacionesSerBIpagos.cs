@@ -22,7 +22,7 @@ namespace WCFSerBIpagos.Models
         public Nullable<double> SaldoActual { get; set; }
         public bool StatusOperacion { get; set; }
         public System.DateTime DateTOpSerBI { get; set; }
-        public long TagId { get; set; }
+        public Nullable<long> Tags_Id { get; set; }
         public string Numero { get; set; }
         public string NoReferencia { get; set; }
         public string Tipo { get; set; }

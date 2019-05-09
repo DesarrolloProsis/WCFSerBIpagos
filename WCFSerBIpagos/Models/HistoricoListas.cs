@@ -18,5 +18,6 @@ namespace WCFSerBIpagos.Models
         public string Extension { get; set; }
         public string Tamaño { get; set; }
         public System.DateTime Fecha_Creacion { get; set; }
+        public string Tipo { get; set; }
     }
 }

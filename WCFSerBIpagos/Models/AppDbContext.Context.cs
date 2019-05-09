@@ -36,13 +36,13 @@ namespace WCFSerBIpagos.Models
         public virtual DbSet<CortesCajeroes> CortesCajeroes { get; set; }
         public virtual DbSet<CuentasTelepeajes> CuentasTelepeajes { get; set; }
         public virtual DbSet<Historico> Historico { get; set; }
+        public virtual DbSet<HistoricoListas> HistoricoListas { get; set; }
         public virtual DbSet<ListaNegra> ListaNegra { get; set; }
         public virtual DbSet<MontosRecargables> MontosRecargables { get; set; }
         public virtual DbSet<OperacionesCajeroes> OperacionesCajeroes { get; set; }
         public virtual DbSet<OperacionesSerBIpagos> OperacionesSerBIpagos { get; set; }
         public virtual DbSet<Parametrizables> Parametrizables { get; set; }
         public virtual DbSet<Tags> Tags { get; set; }
-        public virtual DbSet<HistoricoListas> HistoricoListas { get; set; }
     
         public virtual int sp_StatusTag()
         {

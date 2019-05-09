@@ -41,7 +41,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -61,26 +69,109 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Service1.svc" />
+    <Content Include="Models\AppDbContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AppDbContext.edmx</DependentUpon>
+      <LastGenOutput>AppDbContext.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\AppDbContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AppDbContext.edmx</DependentUpon>
+      <LastGenOutput>AppDbContext.cs</LastGenOutput>
+    </Content>
+    <Content Include="WSSerBIpagos.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Service1.svc.cs">
-      <DependentUpon>Service1.svc</DependentUpon>
+    <Compile Include="Models\AppDbContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppDbContext.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="IService1.cs" />
+    <Compile Include="Models\AppDbContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AppDbContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppDbContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetRoles.cs">
+      <DependentUpon>AppDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserClaims.cs">
+      <DependentUpon>AppDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogins.cs">
+      <DependentUpon>AppDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUsers.cs">
+      <DependentUpon>AppDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Clientes.cs">
+      <DependentUpon>AppDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CortesCajeroes.cs">
+      <DependentUpon>AppDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CuentasTelepeajes.cs">
+      <DependentUpon>AppDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C__MigrationHistory.cs">
+      <DependentUpon>AppDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Historico.cs">
+      <DependentUpon>AppDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ListaNegra.cs">
+      <DependentUpon>AppDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MontosRecargables.cs">
+      <DependentUpon>AppDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OperacionesCajeroes.cs">
+      <DependentUpon>AppDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OperacionesSerBIpagos.cs">
+      <DependentUpon>AppDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Parametrizables.cs">
+      <DependentUpon>AppDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tags.cs">
+      <DependentUpon>AppDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Services\MethodsGlb.cs" />
+    <Compile Include="WSSerBIpagos.svc.cs">
+      <DependentUpon>WSSerBIpagos.svc</DependentUpon>
+    </Compile>
+    <Compile Include="IWSSerBIpagos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <EntityDeploy Include="Models\AppDbContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AppDbContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\AppDbContext.edmx.diagram">
+      <DependentUpon>AppDbContext.edmx</DependentUpon>
+    </Content>
+    <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

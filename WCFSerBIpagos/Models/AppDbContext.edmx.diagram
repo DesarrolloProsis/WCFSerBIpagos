@@ -27,6 +27,7 @@
         <AssociationConnector Association="GTDBModel.FK_dbo_Tags_dbo_CuentasTelepeajes_CuentaId" ManuallyRouted="false" />
         <AssociationConnector Association="GTDBModel.FK_dbo_OperacionesSerBIpagos_dbo_Tags_TagId" ManuallyRouted="false" />
         <AssociationConnector Association="GTDBModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="GTDBModel.HistoricoListas" Width="1.5" PointX="12.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -20,6 +20,12 @@ namespace WCFSerBIpagos
         private MethodsGlb methods = new MethodsGlb();
 
         // VERIFICAR PETICION DE DATOS
+        /// <summary>
+        /// Consultar: { Convenio, Proveedor, AutorizacionProveedor, AutorizacionBanco, iden01=>NumCuenta || iden02=>NumTag }
+        /// Respuesta: { Convenio, Proveedor, AutorizacionProveedor, AutorizacionBanco, CodigoRetorno, MensajeRetorno, iden01=>NumCuenta || iden02=>NumTag, iden04=>NomCliente ,val01=>SaldoCuenta || val02=>SaldoTag}
+        /// </summary>
+        /// <param name="XMLRequested"></param>
+        /// <returns></returns>
         public string Consultar(string XMLRequested)
         {
             // VALIDAR SI NOS MANDAN EL TAG O NUMERO DE CUENTA
@@ -226,6 +232,12 @@ namespace WCFSerBIpagos
         }
 
         // VERIFICAR PETICION DE DATOS
+        /// <summary>
+        /// Pagar: { Convenio, Proveedor, AutorizacionProveedor, AutorizacionBanco, iden01=>NumCuenta || iden02=>NumTag, val03=>SaldoModificar }
+        /// Respuesta: { Convenio, Proveedor, AutorizacionProveedor, AutorizacionBanco,  CodigoRetorno, MensajeRetorno, iden01=>NumCuenta || iden02=>NumTag, iden04=>NomCliente ,val01=>SaldoCuenta || val02=>SaldoTag, val03=>SaldoModificar, val04=>NoReferencia }
+        /// </summary>
+        /// <param name="XMLRequested"></param>
+        /// <returns></returns>
         public string Pagar(string XMLRequested)
         {
             // VALIDAR: CON LA CUENTA SI TIENE INFORMACIÓN DE UN TAG INDIVIDUAL
@@ -293,12 +305,12 @@ namespace WCFSerBIpagos
 
                                             if (!cliente.cu.StatusCuenta)
                                             {
-                                                if (saldoActual >= 100)
+                                                if (saldoActual >= 15.25)
                                                     cliente.cu.StatusCuenta = true;
 
                                                 cliente.cu.Tags.ToList().ForEach(x =>
                                                 {
-                                                    if (saldoActual >= 100)
+                                                    if (saldoActual >= 15.25)
                                                         x.StatusTag = true;
 
                                                     x.SaldoTag = saldoActual.ToString("F2").Replace(".", string.Empty);
@@ -405,7 +417,7 @@ namespace WCFSerBIpagos
 
                                             if (!cliente.ta.StatusTag)
                                             {
-                                                if (saldoActual >= 20)
+                                                if (saldoActual >= 15.25)
                                                     cliente.ta.StatusTag = true;
                                             }
 
@@ -579,9 +591,15 @@ namespace WCFSerBIpagos
             return XMLSubmit;
         }
 
-        // INVALIDAR SI EL TAG O CUENTA DESPUÉS DEL DESCUENTO TIENEN MENOR SALDO (100C, 20T)
+        // INVALIDAR SI EL TAG O CUENTA DESPUÉS DEL DESCUENTO TIENEN MENOR SALDO (15.25 para ambos)
         // MEJORAR CÓDIGO Y VERICIAR XML
         // VERIFICAR PETICION DE DATOS
+        /// <summary>
+        /// Reversar: { Convenio, Proveedor, AutorizacionProveedor, AutorizacionBanco, val03=>SaldoModificar, val04=>NoReferencia }
+        /// Respuesta: { Convenio, Proveedor, AutorizacionProveedor, AutorizacionBanco,  CodigoRetorno, MensajeRetorno, iden01=>NumCuenta || iden02=>NumTag, iden04=>NomCliente, val01=>SaldoCuenta || val02=>SaldoTag, val03=>SaldoModificar, val04=>NoReferencia }
+        /// </summary>
+        /// <param name="XMLRequested"></param>
+        /// <returns></returns>
         public string Reversar(string XMLRequested)
         {
             // VARIABLES
@@ -634,12 +652,12 @@ namespace WCFSerBIpagos
 
                                             if (!cliente.cue.StatusCuenta)
                                             {
-                                                if (saldoreversar < 100)
+                                                if (saldoreversar < 15.25)
                                                     cliente.cue.StatusCuenta = false;
 
                                                 cliente.cue.Tags.ToList().ForEach(x =>
                                                 {
-                                                    if (saldoreversar < 100)
+                                                    if (saldoreversar < 15.25)
                                                         x.StatusTag = false;
 
                                                     x.SaldoTag = saldoreversar.ToString("F2").Replace(".", string.Empty);
@@ -699,7 +717,7 @@ namespace WCFSerBIpagos
 
                                                 if (!clientetag.ta.StatusTag)
                                                 {
-                                                    if (saldoreversar < 20)
+                                                    if (saldoreversar < 15.25)
                                                         clientetag.ta.StatusTag = false;
                                                 }
 
@@ -914,7 +932,7 @@ namespace WCFSerBIpagos
 </valor>
 </mensaje>
 */
-//<?xml version="1.0" encoding="ISO-8859-1"?><mensaje><encabezado><convenio>8888</convenio><proveedor>8888</proveedor><codigoRetorno></codigoRetorno><mensajeRetorno></mensajeRetorno><autorizacionProveedor></autorizacionProveedor><autorizacionBanco>554433</autorizacionBanco></encabezado><identificador><!--identificadores principales--><iden01 largo="NUMERO DE CUENTA" corto="NUMERO D"></iden01><iden02 largo="NUMERO DE TAG" corto="NUMERO T">50100012218</iden02><iden03 largo="" corto=""></iden03><!--identificadores adicionales--><iden04 largo="NOMBRE DEL CLIENTE" corto="NOMBRE D"></iden04><iden05 largo="" corto=""></iden05><iden06 largo="" corto=""></iden06></identificador><valor><val01 largo="SALDO CUENTA" corto="SALDO CU"></val01><val02 largo="SALDO TAG" corto="SALDO TA"></val02><val03 largo="SALDO MODIFICAR" corto="SALDO MO"></val03><val04 largo="NUMERO REFERENCIA" corto="NUMERO R"></val04><val05 largo="" corto=""></val05><!--valor utilizado únicamente para la mora--><val06 largo="" corto=""></val06></valor></mensaje>
+//<?xml version="1.0" encoding="ISO-8859-1"?><mensaje><encabezado><convenio>8888</convenio><proveedor>8888</proveedor><codigoRetorno></codigoRetorno><mensajeRetorno></mensajeRetorno><autorizacionProveedor></autorizacionProveedor><autorizacionBanco>554433</autorizacionBanco></encabezado><identificador><!--identificadores principales--><iden01 largo="NUMERO DE CUENTA" corto="NUMERO D"></iden01><iden02 largo="NUMERO DE TAG" corto="NUMERO T">50100000201</iden02><iden03 largo="" corto=""></iden03><!--identificadores adicionales--><iden04 largo="NOMBRE DEL CLIENTE" corto="NOMBRE D"></iden04><iden05 largo="" corto=""></iden05><iden06 largo="" corto=""></iden06></identificador><valor><val01 largo="SALDO CUENTA" corto="SALDO CU"></val01><val02 largo="SALDO TAG" corto="SALDO TA"></val02><val03 largo="SALDO MODIFICAR" corto="SALDO MO"></val03><val04 largo="NUMERO REFERENCIA" corto="NUMERO R"></val04><val05 largo="" corto=""></val05><!--valor utilizado únicamente para la mora--><val06 largo="" corto=""></val06></valor></mensaje>
 
 #endregion
 

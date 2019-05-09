@@ -12,6 +12,8 @@ namespace WCFSerBIpagos.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class GTDBEntities : DbContext
     {
@@ -40,5 +42,11 @@ namespace WCFSerBIpagos.Models
         public virtual DbSet<OperacionesSerBIpagos> OperacionesSerBIpagos { get; set; }
         public virtual DbSet<Parametrizables> Parametrizables { get; set; }
         public virtual DbSet<Tags> Tags { get; set; }
+        public virtual DbSet<HistoricoListas> HistoricoListas { get; set; }
+    
+        public virtual int sp_StatusTag()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_StatusTag");
+        }
     }
 }

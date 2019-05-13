@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -330,7 +331,7 @@ namespace WCFSerBIpagos
                                             variables.Iden01 = cliente.cu.NumCuenta.ToString();
                                             variables.Iden02 = string.Empty;
                                             variables.Iden04 = cliente.cu.Clientes.Nombre + " " + cliente.cu.Clientes.Apellidos;
-                                            variables.Val01 = (double.Parse(saldoActual.ToString("F2")) / 100).ToString("F2");
+                                            variables.Val01 = saldoActual.ToString("F2");
                                             variables.Val02 = string.Empty;
                                             variables.Val03 = nodeValores[0]["val03"].InnerText;
                                         }
@@ -433,7 +434,7 @@ namespace WCFSerBIpagos
                                             variables.Iden02 = cliente.ta.NumTag;
                                             variables.Iden04 = cliente.cu.Clientes.Nombre + " " + cliente.cu.Clientes.Apellidos;
                                             variables.Val01 = string.Empty;
-                                            variables.Val02 = (double.Parse(saldoActual.ToString("F2")) / 100).ToString("F2");
+                                            variables.Val02 = saldoActual.ToString("F2");
                                             variables.Val03 = nodeValores[0]["val03"].InnerText;
                                         }
                                         else
@@ -622,12 +623,13 @@ namespace WCFSerBIpagos
 
                 if (nodeEncabezado.Count > 0 && nodeIdentificador.Count > 0 && nodeValores.Count > 0)
                 {
-                    if (nodeEncabezado[0]["convenio"].InnerText == variables.Convenio && nodeEncabezado[0]["proveedor"].InnerText == variables.Proveedor && nodeEncabezado[0]["autorizacionProveedor"].InnerText == variables.AutorizacionProveedor)
+                    if (nodeEncabezado[0]["convenio"].InnerText == variables.Convenio && nodeEncabezado[0]["proveedor"].InnerText == variables.Proveedor)
                     {
                         if (nodeValores[0]["val03"].InnerText != string.Empty && nodeValores[0]["val04"].InnerText != string.Empty)
                         {
                             string NoReferencia = nodeValores[0]["val04"].InnerText;
-                            var operacionesCliente = db.OperacionesSerBIpagos.FirstOrDefault(x => x.NoReferencia == NoReferencia);
+                            var date = DateTime.Today;
+                            var operacionesCliente = db.OperacionesSerBIpagos.Where(x => x.NoReferencia == NoReferencia && DbFunctions.TruncateTime(x.DateTOpSerBI) == date).FirstOrDefault();
 
                             if (operacionesCliente != null)
                             {
@@ -688,6 +690,9 @@ namespace WCFSerBIpagos
                                                 Concepto = "CUENTA REVERSAR"
                                             });
 
+                                            operacionesCliente.StatusOperacion = false;
+                                            db.OperacionesSerBIpagos.Attach(operacionesCliente);
+
                                             db.SaveChanges();
 
                                             variables.AutorizacionBanco = nodeEncabezado[0]["autorizacionBanco"].InnerText;
@@ -696,7 +701,7 @@ namespace WCFSerBIpagos
                                             variables.Iden01 = cliente.cue.NumCuenta;
                                             variables.Iden02 = string.Empty;
                                             variables.Iden04 = cliente.clie.Nombre + " " + cliente.clie.Apellidos;
-                                            variables.Val01 = saldoreversar.ToString();
+                                            variables.Val01 = saldoreversar.ToString("F2");
                                             variables.Val02 = string.Empty;
                                             variables.Val03 = operacionesCliente.SaldoModificar.ToString();
 
@@ -742,6 +747,10 @@ namespace WCFSerBIpagos
                                                     DateTOpSerBI = DateTime.Now,
                                                     Concepto = "TAG REVERSAR"
                                                 });
+
+
+                                                operacionesCliente.StatusOperacion = false;
+                                                db.OperacionesSerBIpagos.Attach(operacionesCliente);
 
                                                 db.SaveChanges();
 

@@ -22,8 +22,8 @@ namespace WCFSerBIpagos
 
         // VERIFICAR PETICION DE DATOS
         /// <summary>
-        /// Consultar: { Convenio, Proveedor, AutorizacionProveedor, AutorizacionBanco, iden01=>NumCuenta || iden02=>NumTag }
-        /// Respuesta: { Convenio, Proveedor, AutorizacionProveedor, AutorizacionBanco, CodigoRetorno, MensajeRetorno, iden01=>NumCuenta || iden02=>NumTag, iden04=>NomCliente ,val01=>SaldoCuenta || val02=>SaldoTag}
+        /// Consultar: { Convenio, Proveedor, iden01=>NumCuenta || iden02=>NumTag }
+        /// Respuesta: { Convenio, Proveedor, AutorizacionProveedor, AutorizacionBanco, CodigoRetorno, MensajeRetorno, iden01=>NumCuenta || iden02=>NumTag, iden04=>NomCliente, val01=>SaldoCuenta || val02=>SaldoTag}
         /// </summary>
         /// <param name="XMLRequested"></param>
         /// <returns></returns>
@@ -234,7 +234,7 @@ namespace WCFSerBIpagos
 
         // VERIFICAR PETICION DE DATOS
         /// <summary>
-        /// Pagar: { Convenio, Proveedor, AutorizacionProveedor, AutorizacionBanco, iden01=>NumCuenta || iden02=>NumTag, val03=>SaldoModificar }
+        /// Pagar: { Convenio, Proveedor, iden01=>NumCuenta || iden02=>NumTag, val03=>SaldoModificar }
         /// Respuesta: { Convenio, Proveedor, AutorizacionProveedor, AutorizacionBanco,  CodigoRetorno, MensajeRetorno, iden01=>NumCuenta || iden02=>NumTag, iden04=>NomCliente ,val01=>SaldoCuenta || val02=>SaldoTag, val03=>SaldoModificar, val04=>NoReferencia }
         /// </summary>
         /// <param name="XMLRequested"></param>
@@ -596,7 +596,7 @@ namespace WCFSerBIpagos
         // MEJORAR CÓDIGO Y VERICIAR XML
         // VERIFICAR PETICION DE DATOS
         /// <summary>
-        /// Reversar: { Convenio, Proveedor, AutorizacionProveedor, AutorizacionBanco, val03=>SaldoModificar, val04=>NoReferencia }
+        /// Reversar: { Convenio, Proveedor, val03=>SaldoModificar, val04=>NoReferencia }
         /// Respuesta: { Convenio, Proveedor, AutorizacionProveedor, AutorizacionBanco,  CodigoRetorno, MensajeRetorno, iden01=>NumCuenta || iden02=>NumTag, iden04=>NomCliente, val01=>SaldoCuenta || val02=>SaldoTag, val03=>SaldoModificar, val04=>NoReferencia }
         /// </summary>
         /// <param name="XMLRequested"></param>
@@ -692,6 +692,7 @@ namespace WCFSerBIpagos
 
                                             operacionesCliente.StatusOperacion = false;
                                             db.OperacionesSerBIpagos.Attach(operacionesCliente);
+                                            db.Entry(operacionesCliente).State = EntityState.Modified;
 
                                             db.SaveChanges();
 
@@ -751,6 +752,7 @@ namespace WCFSerBIpagos
 
                                                 operacionesCliente.StatusOperacion = false;
                                                 db.OperacionesSerBIpagos.Attach(operacionesCliente);
+                                                db.Entry(operacionesCliente).State = EntityState.Modified;
 
                                                 db.SaveChanges();
 

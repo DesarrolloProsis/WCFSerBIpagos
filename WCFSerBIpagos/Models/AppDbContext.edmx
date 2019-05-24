@@ -15,6 +15,15 @@
           <Property Name="Model" Type="varbinary(max)" Nullable="false" />
           <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
         </EntityType>
+        <EntityType Name="AmountConfigurations">
+          <Key>
+            <PropertyRef Name="Concept" />
+            <PropertyRef Name="Amount" />
+          </Key>
+          <Property Name="Concept" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Type" Type="smallint" Nullable="false" />
+          <Property Name="Amount" Type="float" Nullable="false" />
+        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -192,7 +201,6 @@
           <Property Name="SaldoActual" Type="float" />
           <Property Name="StatusOperacion" Type="bit" Nullable="false" />
           <Property Name="DateTOpSerBI" Type="datetime" Nullable="false" />
-          <Property Name="Tags_Id" Type="bigint" />
           <Property Name="Numero" Type="nvarchar" MaxLength="30" />
           <Property Name="NoReferencia" Type="nvarchar" MaxLength="30" />
           <Property Name="Tipo" Type="nvarchar" MaxLength="20" />
@@ -307,18 +315,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_OperacionesSerBIpagos_dbo_Tags_Tags_Id">
-          <End Role="Tags" Type="Self.Tags" Multiplicity="0..1" />
-          <End Role="OperacionesSerBIpagos" Type="Self.OperacionesSerBIpagos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tags">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OperacionesSerBIpagos">
-              <PropertyRef Name="Tags_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_dbo_Tags_dbo_CuentasTelepeajes_CuentaId">
           <End Role="CuentasTelepeajes" Type="Self.CuentasTelepeajes" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -336,6 +332,7 @@
         <Function Name="sp_StatusTag" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="GTDBModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AmountConfigurations" EntityType="Self.AmountConfigurations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
@@ -376,10 +373,6 @@
             <End Role="CortesCajeroes" EntitySet="CortesCajeroes" />
             <End Role="OperacionesCajeroes" EntitySet="OperacionesCajeroes" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_OperacionesSerBIpagos_dbo_Tags_Tags_Id" Association="Self.FK_dbo_OperacionesSerBIpagos_dbo_Tags_Tags_Id">
-            <End Role="Tags" EntitySet="Tags" />
-            <End Role="OperacionesSerBIpagos" EntitySet="OperacionesSerBIpagos" />
-          </AssociationSet>
           <AssociationSet Name="FK_dbo_Tags_dbo_CuentasTelepeajes_CuentaId" Association="Self.FK_dbo_Tags_dbo_CuentasTelepeajes_CuentaId">
             <End Role="CuentasTelepeajes" EntitySet="CuentasTelepeajes" />
             <End Role="Tags" EntitySet="Tags" />
@@ -399,6 +392,15 @@
           <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
           <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AmountConfigurations">
+          <Key>
+            <PropertyRef Name="Concept" />
+            <PropertyRef Name="Amount" />
+          </Key>
+          <Property Name="Concept" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="Int16" Nullable="false" />
+          <Property Name="Amount" Type="Double" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
@@ -580,12 +582,10 @@
           <Property Name="SaldoActual" Type="Double" />
           <Property Name="StatusOperacion" Type="Boolean" Nullable="false" />
           <Property Name="DateTOpSerBI" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Tags_Id" Type="Int64" />
           <Property Name="Numero" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="NoReferencia" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="Tipo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Concepto" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Tags" Relationship="Self.FK_dbo_OperacionesSerBIpagos_dbo_Tags_Tags_Id" FromRole="OperacionesSerBIpagos" ToRole="Tags" />
         </EntityType>
         <EntityType Name="Parametrizables">
           <Key>
@@ -612,7 +612,6 @@
           <Property Name="CuentaId" Type="Int64" Nullable="false" />
           <Property Name="IdCajero" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="CuentasTelepeajes" Relationship="Self.FK_dbo_Tags_dbo_CuentasTelepeajes_CuentaId" FromRole="Tags" ToRole="CuentasTelepeajes" />
-          <NavigationProperty Name="OperacionesSerBIpagos" Relationship="Self.FK_dbo_OperacionesSerBIpagos_dbo_Tags_Tags_Id" FromRole="Tags" ToRole="OperacionesSerBIpagos" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -684,24 +683,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_OperacionesSerBIpagos_dbo_Tags_Tags_Id">
-          <End Role="Tags" Type="Self.Tags" Multiplicity="0..1" />
-          <End Role="OperacionesSerBIpagos" Type="Self.OperacionesSerBIpagos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tags">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OperacionesSerBIpagos">
-              <PropertyRef Name="Tags_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
         </Association>
         <EntityContainer Name="GTDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="AmountConfigurations" EntityType="Self.AmountConfigurations" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
@@ -737,10 +725,6 @@
             <End Role="CuentasTelepeajes" EntitySet="CuentasTelepeajes" />
             <End Role="Tags" EntitySet="Tags" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_OperacionesSerBIpagos_dbo_Tags_Tags_Id" Association="Self.FK_dbo_OperacionesSerBIpagos_dbo_Tags_Tags_Id">
-            <End Role="Tags" EntitySet="Tags" />
-            <End Role="OperacionesSerBIpagos" EntitySet="OperacionesSerBIpagos" />
-          </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -760,6 +744,15 @@
                 <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
                 <ScalarProperty Name="Model" ColumnName="Model" />
                 <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AmountConfigurations">
+            <EntityTypeMapping TypeName="GTDBModel.AmountConfigurations">
+              <MappingFragment StoreEntitySet="AmountConfigurations">
+                <ScalarProperty Name="Concept" ColumnName="Concept" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -941,7 +934,6 @@
                 <ScalarProperty Name="SaldoActual" ColumnName="SaldoActual" />
                 <ScalarProperty Name="StatusOperacion" ColumnName="StatusOperacion" />
                 <ScalarProperty Name="DateTOpSerBI" ColumnName="DateTOpSerBI" />
-                <ScalarProperty Name="Tags_Id" ColumnName="Tags_Id" />
                 <ScalarProperty Name="Numero" ColumnName="Numero" />
                 <ScalarProperty Name="NoReferencia" ColumnName="NoReferencia" />
                 <ScalarProperty Name="Tipo" ColumnName="Tipo" />

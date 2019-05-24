@@ -83,6 +83,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AmountConfigurations.cs">
+      <DependentUpon>AppDbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AppDbContext.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

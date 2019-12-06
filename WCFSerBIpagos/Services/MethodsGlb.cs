@@ -41,7 +41,7 @@ namespace WCFSerBIpagos.Services
 
                 return numreferencia;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -76,7 +76,7 @@ namespace WCFSerBIpagos.Services
 
                 return numreferencia;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

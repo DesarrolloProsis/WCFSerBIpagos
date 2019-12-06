@@ -184,7 +184,7 @@ namespace WCFSerBIpagos
                     variables.Val04 = string.Empty;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 variables.AutorizacionBanco = string.Empty;
                 variables.CodigoRetorno = "05";
@@ -314,6 +314,15 @@ namespace WCFSerBIpagos
                                                     if (saldoActual >= 15.25)
                                                         x.StatusTag = true;
 
+                                                    x.SaldoTag = saldoActual.ToString("F2").Replace(".", string.Empty);
+                                                    db.Tags.Attach(x);
+                                                    db.Entry(x).State = System.Data.Entity.EntityState.Modified;
+                                                });
+                                            }
+                                            else
+                                            {
+                                                cliente.cu.Tags.ToList().ForEach(x =>
+                                                {
                                                     x.SaldoTag = saldoActual.ToString("F2").Replace(".", string.Empty);
                                                     db.Tags.Attach(x);
                                                     db.Entry(x).State = System.Data.Entity.EntityState.Modified;
@@ -542,7 +551,7 @@ namespace WCFSerBIpagos
                     variables.Val04 = string.Empty;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 variables.AutorizacionBanco = string.Empty;
                 variables.CodigoRetorno = "05";
@@ -657,6 +666,18 @@ namespace WCFSerBIpagos
                                                 if (saldoreversar < 15.25)
                                                     cliente.cue.StatusCuenta = false;
 
+                                                cliente.cue.Tags.ToList().ForEach(x =>
+                                                {
+                                                    if (saldoreversar < 15.25)
+                                                        x.StatusTag = false;
+
+                                                    x.SaldoTag = saldoreversar.ToString("F2").Replace(".", string.Empty);
+                                                    db.Tags.Attach(x);
+                                                    db.Entry(x).State = System.Data.Entity.EntityState.Modified;
+                                                });
+                                            }
+                                            else
+                                            {
                                                 cliente.cue.Tags.ToList().ForEach(x =>
                                                 {
                                                     if (saldoreversar < 15.25)
@@ -861,7 +882,7 @@ namespace WCFSerBIpagos
                     variables.Val03 = string.Empty;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 variables.AutorizacionBanco = string.Empty;
                 variables.CodigoRetorno = "05";
@@ -943,7 +964,7 @@ namespace WCFSerBIpagos
 </valor>
 </mensaje>
 */
-//<?xml version="1.0" encoding="ISO-8859-1"?><mensaje><encabezado><convenio>8888</convenio><proveedor>8888</proveedor><codigoRetorno></codigoRetorno><mensajeRetorno></mensajeRetorno><autorizacionProveedor></autorizacionProveedor><autorizacionBanco>554433</autorizacionBanco></encabezado><identificador><!--identificadores principales--><iden01 largo="NUMERO DE CUENTA" corto="NUMERO D"></iden01><iden02 largo="NUMERO DE TAG" corto="NUMERO T">50100000201</iden02><iden03 largo="" corto=""></iden03><!--identificadores adicionales--><iden04 largo="NOMBRE DEL CLIENTE" corto="NOMBRE D"></iden04><iden05 largo="" corto=""></iden05><iden06 largo="" corto=""></iden06></identificador><valor><val01 largo="SALDO CUENTA" corto="SALDO CU"></val01><val02 largo="SALDO TAG" corto="SALDO TA"></val02><val03 largo="SALDO MODIFICAR" corto="SALDO MO"></val03><val04 largo="NUMERO REFERENCIA" corto="NUMERO R"></val04><val05 largo="" corto=""></val05><!--valor utilizado únicamente para la mora--><val06 largo="" corto=""></val06></valor></mensaje>
+//<?xml version="1.0" encoding="ISO-8859-1"?><mensaje><encabezado><convenio>8888</convenio><proveedor>8888</proveedor><codigoRetorno></codigoRetorno><mensajeRetorno></mensajeRetorno><autorizacionProveedor></autorizacionProveedor><autorizacionBanco>554433</autorizacionBanco></encabezado><identificador><!--identificadores principales--><iden01 largo="NUMERO DE CUENTA" corto="NUMERO D"></iden01><iden02 largo="NUMERO DE TAG" corto="NUMERO T">50100007722</iden02><iden03 largo="" corto=""></iden03><!--identificadores adicionales--><iden04 largo="NOMBRE DEL CLIENTE" corto="NOMBRE D"></iden04><iden05 largo="" corto=""></iden05><iden06 largo="" corto=""></iden06></identificador><valor><val01 largo="SALDO CUENTA" corto="SALDO CU"></val01><val02 largo="SALDO TAG" corto="SALDO TA"></val02><val03 largo="SALDO MODIFICAR" corto="SALDO MO"></val03><val04 largo="NUMERO REFERENCIA" corto="NUMERO R"></val04><val05 largo="" corto=""></val05><!--valor utilizado únicamente para la mora--><val06 largo="" corto=""></val06></valor></mensaje>
 
 #endregion
 

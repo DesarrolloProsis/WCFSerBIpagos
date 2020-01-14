@@ -40,9 +40,8 @@ namespace WCFSerBIpagos
             try
             {
                 string decodeXML = HttpUtility.HtmlDecode(XMLRequested);
-                variables.Convenio = "8888";
-                variables.Proveedor = "8888";
-                variables.AutorizacionProveedor = "1234";
+                variables.Proveedor = "00000010";
+                variables.AutorizacionProveedor = "26977730";
 
                 XmlDocument XMLRequestedDoc = new XmlDocument();
                 XMLRequestedDoc.LoadXml(decodeXML);
@@ -52,8 +51,10 @@ namespace WCFSerBIpagos
 
                 if (nodeEncabezado.Count > 0 && nodeIdentificador.Count > 0)
                 {
-                    if (nodeEncabezado[0]["convenio"].InnerText == variables.Convenio && nodeEncabezado[0]["proveedor"].InnerText == variables.Proveedor)
+                    if (nodeEncabezado[0]["proveedor"].InnerText == variables.Proveedor)
                     {
+                        variables.Convenio = nodeEncabezado[0]["convenio"].InnerText;
+
                         if ((nodeIdentificador[0]["iden01"].InnerText != string.Empty && nodeIdentificador[0]["iden02"].InnerText == string.Empty) || (nodeIdentificador[0]["iden01"].InnerText == string.Empty && nodeIdentificador[0]["iden02"].InnerText != string.Empty))
                         {
                             if (nodeIdentificador[0]["iden01"].InnerText != string.Empty)
@@ -250,9 +251,8 @@ namespace WCFSerBIpagos
 
             try
             {
-                variables.Convenio = "8888";
-                variables.Proveedor = "8888";
-                variables.AutorizacionProveedor = "1234";
+                variables.Proveedor = "00000010";
+                variables.AutorizacionProveedor = "26977730";
 
                 string decodeXML = HttpUtility.HtmlDecode(XMLRequested);
                 XmlDocument XMLRequestedDoc = new XmlDocument();
@@ -264,8 +264,10 @@ namespace WCFSerBIpagos
 
                 if (nodeEncabezado.Count > 0 && nodeIdentificador.Count > 0 && nodeValores.Count > 0)
                 {
-                    if (nodeEncabezado[0]["convenio"].InnerText == variables.Convenio && nodeEncabezado[0]["proveedor"].InnerText == variables.Proveedor)
+                    if (nodeEncabezado[0]["proveedor"].InnerText == variables.Proveedor)
                     {
+                        variables.Convenio = nodeEncabezado[0]["convenio"].InnerText;
+
                         if ((nodeIdentificador[0]["iden01"].InnerText != string.Empty && nodeIdentificador[0]["iden02"].InnerText == string.Empty) || (nodeIdentificador[0]["iden01"].InnerText == string.Empty && nodeIdentificador[0]["iden02"].InnerText != string.Empty))
                         {
                             if (nodeIdentificador[0]["iden01"].InnerText != string.Empty)
@@ -618,9 +620,8 @@ namespace WCFSerBIpagos
 
             try
             {
-                variables.Convenio = "8888";
-                variables.Proveedor = "8888";
-                variables.AutorizacionProveedor = "1234";
+                variables.Proveedor = "00000010";
+                variables.AutorizacionProveedor = "26977730";
 
                 string decodeXML = HttpUtility.HtmlDecode(XMLRequested);
                 XmlDocument XMLRequestedDoc = new XmlDocument();
@@ -632,8 +633,10 @@ namespace WCFSerBIpagos
 
                 if (nodeEncabezado.Count > 0 && nodeIdentificador.Count > 0 && nodeValores.Count > 0)
                 {
-                    if (nodeEncabezado[0]["convenio"].InnerText == variables.Convenio && nodeEncabezado[0]["proveedor"].InnerText == variables.Proveedor)
+                    if (nodeEncabezado[0]["proveedor"].InnerText == variables.Proveedor)
                     {
+                        variables.Convenio = nodeEncabezado[0]["convenio"].InnerText;
+
                         if (nodeValores[0]["val03"].InnerText != string.Empty && nodeValores[0]["val04"].InnerText != string.Empty)
                         {
                             string NoReferencia = nodeValores[0]["val04"].InnerText;
